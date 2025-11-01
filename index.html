@@ -5,72 +5,265 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Deu Click, Deu Ruim! — Experimento Social (Versão Pública)</title>
   <style>
-    :root{
-      --bg:#f6fbff;
-      --card:#ffffff;
-      --accent:#2b7be4;
-      --muted:#556677;
+    :root {
+      --bg: #f6fbff;
+      --card: #ffffff;
+      --accent: #2b7be4;
+      --muted: #556677;
       font-family: Inter, Roboto, Arial, sans-serif;
     }
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;background:linear-gradient(180deg,var(--bg),#eef6ff);color:#10233b}
 
-    .container{max-width:900px;margin:40px auto;padding:24px}
+    * { box-sizing: border-box; }
 
-    header{display:flex;gap:16px;align-items:center}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, var(--bg), #eef6ff);
+      color: #10233b;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 16px;
+    }
+
+    header {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
     .logo {
-  font-size: 48px; /* deixa o emoji grande */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-}
+      font-size: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      margin: 0 auto;
+    }
 
-    h1{font-size:22px;margin:0}
-    p.lead{color:var(--muted);margin:8px 0 24px}
+    h1 {
+      font-size: 22px;
+      margin: 0;
+    }
 
-    .card{background:var(--card);border-radius:12px;padding:18px;box-shadow:0 6px 24px rgba(16,35,59,0.06)}
+    p.lead {
+      color: var(--muted);
+      margin: 8px 0 24px;
+    }
 
-    .overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.4));backdrop-filter: blur(4px);z-index:20}
-    .overlay-inner{width:min(700px,92%);background:linear-gradient(180deg,#fff,#f3fbff);padding:26px;border-radius:14px;box-shadow:0 8px 36px rgba(2,6,23,0.3);text-align:center}
-    .warning-title{font-size:20px;color:#b32a2a;font-weight:700;margin-bottom:8px}
-    .warning-text{color:#10233b;margin-bottom:16px}
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 6px 24px rgba(16, 35, 59, 0.06);
+    }
 
-    .drag-area{display:flex;align-items:center;justify-content:center;gap:14px}
-    .hand{width:48px;height:48px;border-radius:10px;background:linear-gradient(180deg,#fff,#eef7ff);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(16,35,59,0.08)}
-    .hand:after{content:'\2193';font-size:22px;color:var(--accent);animation:float 1.4s ease-in-out infinite}
-    @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(8px)}100%{transform:translateY(0)}}
+    .overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(2,6,23,0.6), rgba(2,6,23,0.4));
+      backdrop-filter: blur(4px);
+      z-index: 20;
+      padding: 16px;
+    }
 
-    .cta{background:var(--accent);color:white;padding:10px 16px;border-radius:10px;border:none;font-weight:600;cursor:pointer}
-    .muted-note{color:var(--muted);font-size:13px;margin-top:10px}
+    .overlay-inner {
+      width: 100%;
+      max-width: 600px;
+      background: linear-gradient(180deg, #fff, #f3fbff);
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 0 8px 36px rgba(2,6,23,0.3);
+      text-align: center;
+    }
 
-    main{margin-top:20px}
-    .info-grid{display:grid;grid-template-columns:1fr;gap:12px}
-    .info-grid p{margin:0;color:var(--muted)}
+    .warning-title {
+      font-size: 20px;
+      color: #b32a2a;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
 
-    .ascii{white-space:pre;font-family:monospace;padding:14px;background:linear-gradient(180deg,#fbfdff,#f3f8ff);border-radius:8px;margin-top:18px;color:#0b2540;text-align:center}
-    .participants{margin-top:8px;font-size:14px;color:var(--muted);text-align:center}
+    .warning-text {
+      color: #10233b;
+      margin-bottom: 16px;
+      font-size: 15px;
+      line-height: 1.4;
+    }
 
-    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
-    @media (min-width:720px){.info-grid{grid-template-columns:1fr 1fr}} 
+    .drag-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hand {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #fff, #eef7ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 18px rgba(16, 35, 59, 0.08);
+    }
+
+    .hand:after {
+      content: '\2193';
+      font-size: 22px;
+      color: var(--accent);
+      animation: float 1.4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+      100% { transform: translateY(0); }
+    }
+
+    .cta {
+      background: var(--accent);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .muted-note {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    main {
+      margin-top: 20px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .info-grid h3 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    .info-grid p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .ascii {
+      white-space: pre-wrap;
+      font-family: monospace;
+      padding: 14px;
+      background: linear-gradient(180deg, #fbfdff, #f3f8ff);
+      border-radius: 8px;
+      margin-top: 18px;
+      color: #0b2540;
+      text-align: center;
+      font-size: 11px;
+      overflow-x: auto;
+    }
+
+    .participants {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* ----------- MOBILE ADAPTAÇÃO ----------- */
+    @media (max-width: 720px) {
+      .container {
+        margin: 20px auto;
+        padding: 12px;
+      }
+
+      header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      p.lead {
+        font-size: 14px;
+      }
+
+      .overlay-inner {
+        padding: 18px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      ul {
+        padding-left: 20px;
+      }
+
+      li {
+        margin-bottom: 8px;
+      }
+
+      .info-grid h3 {
+        font-size: 16px;
+      }
+
+      .ascii {
+        font-size: 9px;
+        padding: 10px;
+      }
+    }
   </style>
 </head>
+
 <body>
   <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
     <div class="overlay-inner">
       <div class="warning-title" id="overlayTitle">Esse é um experimento social!</div>
-      <div class="warning-text">Você correu muito perigo ao acessar esse QR code.<br>Não se preocupe: este é um teste educativo de conscientização — nenhuma informação pessoal foi coletada.</div>
+      <div class="warning-text">
+        Você correu muito perigo ao acessar esse QR code.<br>
+        Não se preocupe: este é um teste educativo de conscientização — nenhuma informação pessoal foi coletada.
+      </div>
 
-      <div class="drag-area" aria-hidden="false">
-        <div class="hand" aria-hidden="true"></div>
+      <div class="drag-area">
+        <div class="hand"></div>
         <div style="text-align:left;">
           <div style="font-weight:700;margin-bottom:6px">Arraste (ou toque) para saber mais</div>
           <div class="muted-note">Dica: se estiver no celular, arraste para cima ou toque no botão abaixo.</div>
         </div>
       </div>
 
-      <div style="margin-top:18px;display:flex;gap:10px;justify-content:center">
+      <div style="margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
         <button class="cta" id="revealBtn">Quero saber mais</button>
       </div>
     </div>
@@ -78,13 +271,14 @@
 
   <div class="container">
     <header>
-  <div class="logo" title="Hacker ético">🧑‍💻</div>
-  <div>
-    <h1>Deu Click, Deu Ruim — Experimento Social (Versão Pública)</h1>
-    <p class="lead">Projeto educativo do BSI (IFSP) criado para conscientizar sobre segurança digital através de QR Codes espalhados pela cidade.</p>
-  </div>
-</header>
-
+      <div class="logo" title="Hacker ético">🧑‍💻</div>
+      <div>
+        <h1>Deu Click, Deu Ruim — Experimento Social (Versão Pública)</h1>
+        <p class="lead">
+          Projeto educativo do BSI (IFSP) criado para conscientizar sobre segurança digital através de QR Codes espalhados pela cidade.
+        </p>
+      </div>
+    </header>
 
     <main class="card" id="mainContent" aria-hidden="true">
       <section class="info-grid">
@@ -124,16 +318,6 @@
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⡟⠓⠶⣄⣸⣽⡆⣀⣤⣴⣞⣻⣿⣷⣶⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡟⢠⠀⠀⠀⠙⠛⠿⠛⠛⠓⣦⣤⠴⠿⠛⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⠛⣶⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣨⠞⠁⠘⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⠁⣠⠴⠖⠒⠒⠒⠒⠚⠉⠉⠀⠀⠀⠀⠘⣿⣤⣤⣤⣤⣤⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣏⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⡛⡟⠛⠒⠯⠽⣟⣻⢶⣤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡞⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣧⣿⠀⠀⠀⠀⠀⠉⠳⣍⠻⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠋⠀⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣯⣤⣤⣄⡀⠀⠀⠀⠙⣧⠙⣷⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⢾⣿⡴⠶⢮⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⠀⠀⠉⠙⠻⢶⣄⠀⣿⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡴⢛⡽⠞⢹⡄⠀⠀⢸⢹⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡇⠀⠀⠀⠀⠀⠙⢷⣿⠀⣸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⣠⡴⠟⣡⠖⠋⠀⠀⢸⠃⠀⢀⣸⣼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣇⠀⠀⠀⠀⠀⠀⠀⠙⠛⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⣠⠶⢋⠴⠋⠁⠀⠀⢀⣠⣼⡴⠖⠋⢹⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
       </div>
 
       <div class="participants">
@@ -151,10 +335,10 @@
     const revealBtn = document.getElementById('revealBtn');
     const mainContent = document.getElementById('mainContent');
 
-    function reveal(){
+    function reveal() {
       overlay.style.display = 'none';
-      mainContent.setAttribute('aria-hidden','false');
-      window.scrollTo({top:0,behavior:'smooth'});
+      mainContent.setAttribute('aria-hidden', 'false');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     revealBtn.addEventListener('click', reveal);
   </script>
